@@ -1,0 +1,36 @@
+[
+  {
+    "name": "BD Nano Pen Needles",
+    "identNo": "6792302",
+    "size": "4mm",
+    "form": "screw-on hypo",
+    "rxUnit": "",
+    "quantity": "100",
+    "pharmacy": "Kroger",
+    "pharmacyPhone": "919-567-5499",
+    "written": "10/23/2023",
+    "writtenBy": "Dr. Smith",
+    "filled": "10/23/2023",
+    "expired": "10/23/2025",
+    "refillNote": "2 refills by 03/23/2024",
+    "manufacturedBy": "Becton",
+    "note": ""
+  },
+  {
+    "name": "Metformin",
+    "identNo": "6792303",
+    "size": "",
+    "form": "tablet",
+    "rxUnit": "500mg",
+    "quantity": "60",
+    "pharmacy": "Kroger",
+    "pharmacyPhone": "919-567-5499",
+    "written": "10/23/2023",
+    "writtenBy": "Dr. Smith",
+    "filled": "10/23/2023",
+    "expired": "10/23/2025",
+    "refillNote": "2 refills by 02/07/2024",
+    "manufacturedBy": "Mylan",
+    "note": "Take with food"
+  }
+]
