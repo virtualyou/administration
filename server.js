@@ -36,7 +36,7 @@ module.exports = function(app) {
 
 // database
 const db = require("./app/models");
-const Prescription = db.prescription;
+const Task = db.task;
 /*
 db.sequelize.sync({force: true}).then(() => {
         console.log('Drop and Recreate Db');
@@ -45,103 +45,63 @@ db.sequelize.sync({force: true}).then(() => {
 */
 db.sequelize.sync();
 
-// swagger api documentation
-const swaggerUi = require("swagger-ui-express"),
-    swaggerDocument = require("./swagger.json");
-
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the VirtualYou Medical Secure API Express application." });
+  res.json({ message: "Welcome to the VirtualYou Administration API." });
 });
 
 // routes
-require("./app/routes/prescription.routes")(app);
-
-// swagger path to api documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+require("./app/routes/task.routes")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 3007;
+const PORT = process.env.PORT || 3009;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
 /*
-  {
-    "name": "Metformin",
-    "identNo": "6792303",
-    "size": "",
-    "form": "tablet",
-    "rxUnit": "500mg",
-    "quantity": "60",
-    "pharmacy": "Kroger",
-    "pharmacyPhone": "919-567-5499",
-    "written": "10/23/2023",
-    "writtenBy": "Dr. Smith",
-    "filled": "10/23/2023",
-    "expired": "10/23/2025",
-    "refillNote": "2 refills by 02/07/2024",
-    "manufacturedBy": "Mylan",
-    "note": "Take with food",
-    "userKey": 10
-  }
-*/
+{
+  "name": "Change Home Air Filters",
+  "type": "Maintenance",
+  "priority": "High",
+  "due": "11/21/2023",
+  "trigger": "",
+  "completed": "11/22/2023",
+  "note": "Every 6 months",
+  "userKey": 10
+}*/
 
 function initial() {
-  Prescription.create({
-    name: "Metformin",
-    identNo: "6792303",
-    size: "",
-    form: "tablet",
-    rxUnit: "500mg",
-    quantity: "60",
-    pharmacy: "Kroger",
-    pharmacyPhone: "919-567-5499",
-    written: "10/23/2023",
-    writtenBy: "Dr. Smith",
-    filled: "10/23/2023",
-    expired: "10/23/2025",
-    refillNote: "2 refills by 02/07/2024",
-    manufacturedBy: "Mylan",
-    note: "Take with food",
+  Task.create({
+    name: "Change Air Filters",
+    type: "Maintenance",
+    priority: "Normal",
+    due: new Date('2023-11-21'),
+    trigger: "",
+    completed: null,
+    note: "",
     userKey: 10
   });
 
-  Prescription.create({
-    name: "Pravastatin",
-    identNo: "6733303",
-    size: "",
-    form: "tablet",
-    rxUnit: "20mg",
-    quantity: "60",
-    pharmacy: "Kroger",
-    pharmacyPhone: "919-567-5499",
-    written: "10/23/2023",
-    writtenBy: "Dr. Smith",
-    filled: "10/23/2023",
-    expired: "10/23/2025",
-    refillNote: "2 refills by 02/07/2024",
-    manufacturedBy: "Zocor",
-    note: "Take one tablet nightly",
+  Task.create({
+    name: "Send Taxes",
+    type: "Obligation",
+    priority: "High",
+    due: new Date('2023-11-21'),
+    trigger: "Pending W-2",
+    completed: null,
+    note: "",
     userKey: 10
   });
 
-  Prescription.create({
-    name: "Amlodipine",
-    identNo: "6802323",
-    size: "",
-    form: "tablet",
-    rxUnit: "10mg",
-    quantity: "60",
-    pharmacy: "Kroger",
-    pharmacyPhone: "919-567-5499",
-    written: "10/23/2023",
-    writtenBy: "Dr. Smith",
-    filled: "10/23/2023",
-    expired: "10/23/2025",
-    refillNote: "2 refills by 02/07/2024",
-    manufacturedBy: "Eli Lily",
-    note: "Take as needed",
+  Task.create({
+    name: "Take Antibiotic",
+    type: "Health",
+    priority: "High",
+    due: null,
+    trigger: "",
+    completed: null,
+    note: "",
     userKey: 10
   });
 }

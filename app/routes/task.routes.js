@@ -5,7 +5,7 @@
  */
 
 const { authJwt } = require("../utility");
-const controller = require("../controllers/prescription.controller");
+const controller = require("../controllers/task.controller");
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
@@ -21,39 +21,39 @@ module.exports = function(app) {
      * ADMIN ONLY
      * ************************************************************************
      */
-    // GET - all prescriptions
+    // GET - all tasks
     app.get(
-        "/medical/v1/prescriptions",
+        "/administration/v1/tasks",
         [authJwt.verifyToken, authJwt.isAdmin],
-        controller.getAllPrescriptions
+        controller.getAllTasks
     );
 
-    // GET - a prescription by id
+    // GET - a task by id
     app.get(
-        "/medical/v1/prescriptions/:id",
+        "/administration/v1/tasks/:id",
         [authJwt.verifyToken, authJwt.isAdmin],
-        controller.getPrescription
+        controller.getTask
     );
 
-    // PUT - update a prescription by id
+    // PUT - update a task by id
     app.put(
-        "/medical/v1/prescriptions/:id",
+        "/administration/v1/tasks/:id",
         [authJwt.verifyToken, authJwt.isAdmin],
-        controller.updatePrescription
+        controller.updateTask
     );
 
-    // DELETE - a prescription by id
+    // DELETE - a task by id
     app.delete(
-        "/medical/v1/prescriptions/:id",
+        "/administration/v1/tasks/:id",
         [authJwt.verifyToken, authJwt.isAdmin],
-        controller.deletePrescription
+        controller.deleteTask
     );
 
-    // DELETE - all prescriptions
+    // DELETE - all tasks
     app.delete(
-        "/medical/v1/prescriptions",
+        "/administration/v1/tasks",
         [authJwt.verifyToken, authJwt.isAdmin],
-        controller.deleteAllPrescriptions
+        controller.deleteAllTasks
     );
 
     /*
@@ -62,46 +62,46 @@ module.exports = function(app) {
      * ************************************************************************
      */
 
-    // GET - all prescriptions for owner
+    // GET - all tasks for owner
     app.get(
-        "/medical/v1/owner/prescriptions",
+        "/administration/v1/owner/tasks",
         [authJwt.verifyToken, authJwt.isOwnerOrAgentOrMonitor],
-        controller.getAllPrescriptionsForOwner
+        controller.getAllTasksForOwner
     );
 
-    // GET - prescription by id for owner only
+    // GET - task by id for owner only
     app.get(
-        "/medical/v1/owner/prescriptions/:id",
+        "/administration/v1/owner/tasks/:id",
         [authJwt.verifyToken, authJwt.isOwnerOrAgentOrMonitor],
-        controller.getPrescriptionForOwner
+        controller.getTaskForOwner
     );
 
-    // POST - create a new Prescription for owner (owner or agent cognizant of userKey)
+    // POST - create a new Task for owner (owner or agent cognizant of userKey)
     app.post(
-        "/medical/v1/owner/prescriptions",
+        "/administration/v1/owner/tasks",
         [authJwt.verifyToken, authJwt.isOwnerOrAgent],
-        controller.createPrescriptionForOwner
+        controller.createTaskForOwner
     );
 
-    // PUT - update a prescription for owner only
+    // PUT - update a task for owner only
     app.put(
-        "/medical/v1/owner/prescriptions/:id",
+        "/administration/v1/owner/tasks/:id",
         [authJwt.verifyToken, authJwt.isOwnerOrAgent],
-        controller.updatePrescriptionForOwner
+        controller.updateTaskForOwner
     );
 
-    // DELETE - delete a prescription by id for owner only
+    // DELETE - delete a task by id for owner only
     app.delete(
-        "/medical/v1/owner/prescriptions/:id",
+        "/administration/v1/owner/tasks/:id",
         [authJwt.verifyToken, authJwt.isOwnerOrAgent],
-        controller.deletePrescriptionForOwner
+        controller.deleteTaskForOwner
     );
 
-    // DELETE - all prescriptions for owner only
+    // DELETE - all tasks for owner only
     app.delete(
-        "/medical/v1/owner/prescriptions",
+        "/administration/v1/owner/tasks",
         [authJwt.verifyToken, authJwt.isOwnerOrAgent],
-        controller.deleteAllPrescriptionsForOwner
+        controller.deleteAllTasksForOwner
     );
 
 };

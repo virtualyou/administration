@@ -6,42 +6,42 @@
 
 const db = require("../models");
 const {locals} = require("express/lib/application");
-const Prescription = db.prescription;
+const Task = db.task;
 
 /**
- * This asynchronous controller function returns a list of all Prescriptions.
+ * This asynchronous controller function returns a list of all Tasks.
  * The function here would only be called by ROLE_ADMIN
  *
  * @param {object} req - Callback parameter request.
  * @param {object} res - Callback parameter response.
- * @returns {Promise<void>} - To return all Prescription objects
+ * @returns {Promise<void>} - To return all Task objects
  */
 
-exports.getAllPrescriptions = (req, res) => {
-    Prescription.findAll()
+exports.getAllTasks = (req, res) => {
+    Task.findAll()
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Internal server error occurred while retrieving prescriptions."
+                    err.message || "Internal server error occurred while retrieving tasks."
             });
         });
 };
 
 /**
  * This asynchronous controller function returns a list of
- * Prescriptions specifically belonging to the Owner.
+ * Tasks specifically belonging to the Owner.
  *
  * The function here can be called by ROLE_OWNER, ROLE_AGENT, ROLE_MONITOR
  *
  * @param {object} req - Callback parameter request.
  * @param {object} res - Callback parameter response.
- * @returns {Promise<void>} - To return Prescription objects
+ * @returns {Promise<void>} - To return Task objects
  */
 
-exports.getAllPrescriptionsForOwner = (req, res) => {
+exports.getAllTasksForOwner = (req, res) => {
 
     if (req.ownerId === 0) {
         console.log("ownerId " + req.ownerId);
@@ -51,7 +51,7 @@ exports.getAllPrescriptionsForOwner = (req, res) => {
         console.log("ownerId " + req.ownerId);
     }
 
-    Prescription.findAll({
+    Task.findAll({
             where: {
                 userKey: key,
             },
@@ -63,55 +63,55 @@ exports.getAllPrescriptionsForOwner = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Internal server error occurred while retrieving prescriptions."
+                    err.message || "Internal server error occurred while retrieving tasks."
             });
         });
 };
 
 /**
- * This controller function returns a Prescription
+ * This controller function returns a Task
  * based on it's primary key or id.
  *
  * The function here would ONLY be called by ROLE_ADMIN
  *
  * @param {object} req - Callback parameter request.
  * @param {object} res - Callback parameter response.
- * @returns {Promise<void>} - To return Prescription object
+ * @returns {Promise<void>} - To return Task object
  */
 
-exports.getPrescription = (req, res) => {
+exports.getTask = (req, res) => {
     const id = req.params.id;
 
-    Prescription.findByPk(id)
+    Task.findByPk(id)
         .then(data => {
             if (data) {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `Cannot find Prescription with id=${id}.`
+                    message: `Cannot find Task with id=${id}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Internal server error retrieving Prescription with id=" + id
+                message: "Internal server error retrieving Task with id=" + id
             });
         });
 };
 
 /**
- * This controller function returns a Prescription
- * based on it's id and ONLY IF the Prescription belongs to the
+ * This controller function returns a Task
+ * based on it's id and ONLY IF the Task belongs to the
  * Owner.
  *
  * The function here would only be called by ROLE_ADMIN
  *
  * @param {object} req - Callback parameter request.
  * @param {object} res - Callback parameter response.
- * @returns {Promise<void>} - To return Prescription object
+ * @returns {Promise<void>} - To return Task object
  */
 
-exports.getPrescriptionForOwner = (req, res) => {
+exports.getTaskForOwner = (req, res) => {
     const id = req.params.id;
 
     if (req.ownerId === 0) {
@@ -122,7 +122,7 @@ exports.getPrescriptionForOwner = (req, res) => {
         console.log("ownerId " + req.ownerId);
     }
 
-    Prescription.findOne({
+    Task.findOne({
         where: {
             id: id,
             userKey: key
@@ -133,19 +133,19 @@ exports.getPrescriptionForOwner = (req, res) => {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `May not belong to Owner or cannot find this Prescription with id=${id}.`
+                    message: `May not belong to Owner or cannot find this Task with id=${id}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Internal server error retrieving Prescription with id=" + id
+                message: "Internal server error retrieving Task with id=" + id
             });
         });
 };
 
 /**
- * This controller function creates a Prescription
+ * This controller function creates a Task
  *
  * The function here can be called by ROLE_OWNER and
  * ROLE_AGENT
@@ -154,7 +154,7 @@ exports.getPrescriptionForOwner = (req, res) => {
  * @param {object} res - Callback parameter response.
  * @returns {Promise<void>} - Promise Return
  */
-exports.createPrescriptionForOwner = (req, res) => {
+exports.createTaskForOwner = (req, res) => {
 
     // Check request
     if (!req.body.name) {
@@ -164,7 +164,7 @@ exports.createPrescriptionForOwner = (req, res) => {
         return;
     }
 
-    // Owner may be creating the Prescription
+    // Owner may be creating the Task
     if (req.ownerId === 0) {
         console.log("key " + req.userId);
         key = req.userId;
@@ -173,43 +173,35 @@ exports.createPrescriptionForOwner = (req, res) => {
         console.log("key " + req.ownerId);
     }
 
-    // Create new Prescription object
-    const prescription = {
+    // Create new Task object
+    const task = {
         name: req.body.name || "",
-        identNo: req.body.identNo || "",
-        size: req.body.size || "",
-        form: req.body.form || "",
-        rxUnit: req.body.rxUnit || "",
-        quantity: req.body.quantity || "",
-        pharmacy: req.body.pharmacy || "",
-        pharmacyPhone: req.body.pharmacyPhone || "",
-        written: req.body.written || "",
-        writtenBy: req.body.writtenBy || "",
-        filled: req.body.filled || "",
-        expired: req.body.expired || "",
-        refillNote: req.body.refillNote || "",
-        manufacturedBy: req.body.manufacturedBy || "",
+        type: req.body.type || "",
+        priority: req.body.priority || "",
+        due: new Date(req.body.due || null),
+        trigger: req.body.trigger || "",
+        completed: new Date(req.body.completed || null),
         note: req.body.note || "",
         userKey: req.body.userKey || 0
     };
 
-    // Create Prescription using Sequelize
-    Prescription.create(prescription)
+    // Create Task using Sequelize
+    Task.create(task)
         .then(data => {
             res.status(201).send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "An internal server error occurred creating the Prescription."
+                    err.message || "An internal server error occurred creating the Task."
             });
         });
 };
 
-exports.updatePrescription = (req, res) => {
+exports.updateTask = (req, res) => {
     const id = req.params.id;
 
-    Prescription.update(req.body, {
+    Task.update(req.body, {
         where: {
             id: id
         }
@@ -217,25 +209,25 @@ exports.updatePrescription = (req, res) => {
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Prescription was updated successfully!"
+                    message: "Task was updated successfully!"
                 });
             } else {
                 res.status(404).send({
-                    message: `Prescription with id=${id} could not be found!`
+                    message: `Task with id=${id} could not be found!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Internal server error occurred while updating Prescription with id=" + id
+                message: "Internal server error occurred while updating Task with id=" + id
             });
         });
 };
 
-exports.updatePrescriptionForOwner = (req, res) => {
+exports.updateTaskForOwner = (req, res) => {
     const id = req.params.id;
 
-    // Owner may be creating the Prescription
+    // Owner may be creating the Task
     if (req.ownerId === 0) {
         console.log("key " + req.userId);
         key = req.userId;
@@ -244,7 +236,7 @@ exports.updatePrescriptionForOwner = (req, res) => {
         console.log("key " + req.ownerId);
     }
 
-    Prescription.update(req.body, {
+    Task.update(req.body, {
         where: {
             id: id,
             userKey: key
@@ -253,24 +245,24 @@ exports.updatePrescriptionForOwner = (req, res) => {
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Prescription was updated successfully!"
+                    message: "Task was updated successfully!"
                 });
             } else {
                 res.status(404).send({
-                    message: `Prescription with id=${id} may not belong to owner or could not be found!`
+                    message: `Task with id=${id} may not belong to owner or could not be found!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Internal server error occurred while updating Prescription with id=" + id
+                message: "Internal server error occurred while updating Task with id=" + id
             });
         });
 };
 
 
 /**
- * This asynchronous controller function deletes a Prescription
+ * This asynchronous controller function deletes a Task
  * based on it's primary key or id.
  *
  * The function here would ONLY be called by ROLE_ADMIN
@@ -280,12 +272,12 @@ exports.updatePrescriptionForOwner = (req, res) => {
  * @returns {Promise<void>} - Return Promise
  */
 
-exports.deletePrescription = (req, res) => {
+exports.deleteTask = (req, res) => {
     // url parameter
     const id = req.params.id;
 
     // delete specific record
-    Prescription.destroy({
+    Task.destroy({
         where: {
             id: id
         }
@@ -293,23 +285,23 @@ exports.deletePrescription = (req, res) => {
         .then(num => {
             if (num == 1) {
                 return res.status(200).send({
-                    message: "Prescription was deleted!"
+                    message: "Task was deleted!"
                 });
             } else {
                 res.status(404).send({
-                    message: `Prescription was not found!`
+                    message: `Task was not found!`
                 });
             }
         })
         .catch(err => {
             return res.status(500).send({
-                message: "Prescription with id=" + id + " could not be deleted!"
+                message: "Task with id=" + id + " could not be deleted!"
             });
         });
 }
 
 /**
- * This asynchronous controller function deletes a Prescription
+ * This asynchronous controller function deletes a Task
  * based on it's id and ONLY if it belongs to the
  * Owner.
  *
@@ -321,7 +313,7 @@ exports.deletePrescription = (req, res) => {
  * @returns {Promise<void>} - Return Promise
  */
 
-exports.deletePrescriptionForOwner = (req, res) => {
+exports.deleteTaskForOwner = (req, res) => {
     // url parameter
     const id = req.params.id;
 
@@ -335,7 +327,7 @@ exports.deletePrescriptionForOwner = (req, res) => {
     }
 
     // delete specific record
-    Prescription.destroy({
+    Task.destroy({
         where: {
             id: id,
             userKey: key
@@ -343,24 +335,24 @@ exports.deletePrescriptionForOwner = (req, res) => {
     }).then(num => {
         if (num == 1) {
             return res.status(200).send({
-                message: "Prescription was deleted!"
+                message: "Task was deleted!"
             });
         } else {
             res.status(404).send({
-                message: `Prescription was not found!`
+                message: `Task was not found!`
             });
         }
     })
         .catch(err => {
             return res.status(500).send({
-                message: "Prescription with id=" + id + " could not be deleted!"
+                message: "Task with id=" + id + " could not be deleted!"
             });
         });
 }
 
 /**
  * This asynchronous controller function deletes all
- * Prescriptions.
+ * Tasks.
  *
  * The function here would ONLY be called by ROLE_ADMIN
  *
@@ -369,26 +361,26 @@ exports.deletePrescriptionForOwner = (req, res) => {
  * @returns {Promise<void>} - Return Promise
  */
 
-exports.deleteAllPrescriptions = (req, res) => {
+exports.deleteAllTasks = (req, res) => {
 
-    Prescription.destroy({
+    Task.destroy({
         where: {},
         truncate: false
     })
         .then(nums => {
-            res.status(200).send({ message: `${nums} Prescriptions were deleted successfully!` });
+            res.status(200).send({ message: `${nums} Tasks were deleted successfully!` });
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "An error occurred while truncating prescriptions!"
+                    err.message || "An error occurred while truncating tasks!"
             });
         });
 }
 
 /**
  * This asynchronous controller function deletes all
- * Prescriptions for the session Owner.
+ * Tasks for the session Owner.
  *
  * The function here can be called by ROLE_OWNER and
  * ROLE_AGENT.
@@ -398,7 +390,7 @@ exports.deleteAllPrescriptions = (req, res) => {
  * @returns {Promise<void>} - Return Promise
  */
 
-exports.deleteAllPrescriptionsForOwner = (req, res) => {
+exports.deleteAllTasksForOwner = (req, res) => {
 
     // if ownerId = 0 then user is owner
     if (req.ownerId === 0) {
@@ -409,17 +401,17 @@ exports.deleteAllPrescriptionsForOwner = (req, res) => {
         console.log("key " + req.ownerId);
     }
 
-    Prescription.destroy({
+    Task.destroy({
         where: {userKey: key},
         truncate: false
     })
         .then(nums => {
-            res.status(200).send({ message: `${nums} Prescriptions were deleted successfully!` });
+            res.status(200).send({ message: `${nums} Tasks were deleted successfully!` });
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "An error occurred while truncating prescriptions!"
+                    err.message || "An error occurred while truncating tasks!"
             });
         });
 }

@@ -1,6 +1,7 @@
 const config = require("../config/db.config.js");
 
 const Sequelize = require("sequelize");
+
 const sequelize = new Sequelize(
     config.DB,
     config.USER,
@@ -22,6 +23,6 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.prescription = require("./prescription.model.js")(sequelize, Sequelize);
+db.task = require("./task.model.js")(sequelize, Sequelize);
 
 module.exports = db;
