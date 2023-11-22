@@ -4,7 +4,6 @@ const cookieSession = require("cookie-session");
 const app = express();
 
 require('dotenv').config();
-const USERAUTH_SERVER_PORT_URL = process.env.USERAUTH_SERVER_PORT_URL;
 
 app.use(cors());
 
@@ -22,17 +21,6 @@ app.use(
       sameSite: 'strict'
     })
 );
-
-const { createProxyMiddleware } = require('http-proxy-middleware');
-module.exports = function(app) {
-  app.use(
-      '/userauth',
-      createProxyMiddleware({
-        target: USERAUTH_SERVER_PORT_URL,
-        changeOrigin: true,
-      })
-  );
-};
 
 // database
 const db = require("./app/models");
