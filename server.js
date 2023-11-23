@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
+const init = process.argv.includes('--init=true');
+
 const app = express();
 
 require('dotenv').config();
@@ -25,13 +27,15 @@ app.use(
 // database
 const db = require("./app/models");
 const Task = db.task;
-/*
-db.sequelize.sync({force: true}).then(() => {
-        console.log('Drop and Recreate Db');
-        initial();
-});
-*/
-db.sequelize.sync();
+
+if (init) {
+  db.sequelize.sync({force: true}).then(() => {
+    console.log('Drop and Resync Db');
+    initial();
+  });
+} else {
+  db.sequelize.sync();
+}
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the VirtualYou Administration API." });
