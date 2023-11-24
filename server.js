@@ -38,7 +38,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
     cookieSession({
       name: "virtualyou-session",
-      keys: ["COOKIE_SECRET"], // should use as secret environment variable
+      keys: ["COOKIE_SECRET"],
+      domain: '.virtualyou.info',
       httpOnly: true,
       sameSite: 'strict'
     })
