@@ -192,9 +192,9 @@ exports.createTaskForOwner = (req, res) => {
         name: req.body.name || "",
         type: req.body.type || "",
         priority: req.body.priority || "",
-        due: new Date(req.body.due || null),
+        due: req.body.due || "",
         trigger: req.body.trigger || "",
-        completed: new Date(req.body.completed || null),
+        completed: req.body.completed || "",
         note: req.body.note || "",
         userKey: req.body.userKey || 0
     };
