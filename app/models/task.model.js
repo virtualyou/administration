@@ -31,10 +31,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         due: {
-            type: DataTypes.DATE,
+            type: Sequelize.STRING
         },
         completed: {
-            type: DataTypes.DATE,
+            type: Sequelize.STRING
         },
         trigger: {
             type: Sequelize.STRING
