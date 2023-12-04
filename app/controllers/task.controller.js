@@ -249,7 +249,7 @@ exports.updateTaskForOwner = (req, res) => {
         key = req.ownerId;
         console.log("key " + req.ownerId);
     }
-
+    console.log("using id and userKey respectively: " + id + "-" + key);
     Task.update(req.body, {
         where: {
             id: id,
