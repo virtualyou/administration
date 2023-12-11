@@ -66,7 +66,7 @@ npm start
 You should see output like so:
 
 ```shell
-> node server.js
+> node index.ts
 
 Server is running on port 3007.
 ```
