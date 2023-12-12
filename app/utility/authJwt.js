@@ -23,7 +23,7 @@ const config = require("../config/auth.config.js");
 require('dotenv').config();
 const USERAUTH_SERVER_PORT_URL = process.env.USERAUTH_SERVER_PORT_URL;
 
-verifyToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   let token = req.session.token;
 
   if (!token) {
@@ -51,7 +51,7 @@ verifyToken = (req, res, next) => {
 };
 
 // TODO -> refactor into one method to reduce code duplication
-isAdmin = async (req, res, next) => {
+const isAdmin = async (req, res, next) => {
   try {
     const userid = req.userId;
     const cookieHeader = req.headers.cookie;
@@ -74,7 +74,7 @@ isAdmin = async (req, res, next) => {
   }
 };
 
-isOwner = async (req, res, next) => {
+const isOwner = async (req, res, next) => {
   try {
     const userid = req.userId;
     const cookieHeader = req.headers.cookie;
@@ -97,7 +97,7 @@ isOwner = async (req, res, next) => {
   }
 };
 
-isOwnerOrAgent = async (req, res, next) => {
+const isOwnerOrAgent = async (req, res, next) => {
   try {
     const userid = req.userId;
     const cookieHeader = req.headers.cookie;
@@ -120,10 +120,11 @@ isOwnerOrAgent = async (req, res, next) => {
   }
 };
 
-isOwnerOrAgentOrMonitor = async (req, res, next) => {
+const isOwnerOrAgentOrMonitor = async (req, res, next) => {
   try {
     const userid = req.userId;
     const cookieHeader = req.headers.cookie;
+
     const roles = await fetchData(userid, cookieHeader);
 
     for (let i = 0; i < roles.length; i++) {
@@ -143,7 +144,7 @@ isOwnerOrAgentOrMonitor = async (req, res, next) => {
   }
 };
 
-isAgent = async (req, res, next) => {
+const isAgent = async (req, res, next) => {
   try {
     const userid = req.userId;
     const cookieHeader = req.headers.cookie;
@@ -166,7 +167,7 @@ isAgent = async (req, res, next) => {
   }
 };
 
-isMonitor = async (req, res, next) => {
+const isMonitor = async (req, res, next) => {
   try {
     const userid = req.userId;
     const cookieHeader = req.headers.cookie;
@@ -188,6 +189,13 @@ isMonitor = async (req, res, next) => {
     });
   }
 };
+
+// Fetch all User Roles (Private)
+//function fetchData(id, cookie) {
+//  console.log("we are about to use axios.");
+//  return axios.get(USERAUTH_SERVER_PORT_URL + '/userauth/v1/users/' + id + '/roles', { headers: cookie });
+//}
+
 
 // Fetch all User Roles (Private)
 async function fetchData(id, cookie) {
