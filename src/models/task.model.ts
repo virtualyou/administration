@@ -15,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * task.model.ts
  */
 
-const DataTypes = require("sequelize");
-
-module.exports = (sequelize, Sequelize) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const task = (sequelize: any, Sequelize: any) => {
     return sequelize.define("tasks", {
         name: {
             type: Sequelize.STRING
@@ -47,16 +47,4 @@ module.exports = (sequelize, Sequelize) => {
         }
     });
 };
-
-/*
-  Task.create({
-    name: "Send Taxes",
-    type: "Obligation",
-    priority: "High",
-    due: "04/15/2024",
-    trigger: "Pending W-2",
-    completed: "",
-    note: "",
-    userKey: 10
-  });
-*/
+export default task;

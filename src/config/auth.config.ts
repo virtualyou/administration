@@ -1,5 +1,6 @@
 
 /*
+ *
  * VirtualYou Project
  * Copyright 2023 David L Whitehurst
  *
@@ -15,10 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * auth.config.ts
  */
 
-const authJwt = require("./authJwt");
-
-module.exports = {
-  authJwt
+const cookieConfig = {
+  secret: "virtual-you-secret"
 };
+
+export default cookieConfig;

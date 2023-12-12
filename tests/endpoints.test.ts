@@ -1,5 +1,5 @@
-
 /*
+ *
  * VirtualYou Project
  * Copyright 2023 David L Whitehurst
  *
@@ -15,8 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * endpoints.test.ts
  */
 
-module.exports = {
-  secret: "virtual-you-secret"
-};
+import request from "supertest";
+import app from "../src/app";
+
+describe("Test get all owner tasks", () => {
+  const agent = request.agent(app);
+  it("GET /administration/v1/owner/tasks", async () => {
+    const response2 = await agent.get("/administration/v1/owner/tasks"); //.set(cookie);
+    expect(response2.statusCode).toBe(403);
+    expect(response2.type).toBe("application/json");
+    expect(response2.body).toEqual({"message": "No token provided!"});
+  });
+});
+
