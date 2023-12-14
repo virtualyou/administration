@@ -32,8 +32,7 @@ const envSchema = Joi.object().keys({
     DB_HOST: Joi.string().required().default('localhost'),
     DB_USER: Joi.string().required().default('root'),
     DB_PASSWORD: Joi.string().required().default('mariadbAdmin123'),
-    DB_SCHEMA: Joi.string().required().default('virtualyou'),
-    USERAUTH_SERVER_PORT_URL: Joi.string().required().default('http://localhost:3001')
+    DB_SCHEMA: Joi.string().required().default('virtualyou')
 });
 
 const { value: validatedEnv, error } = envSchema
