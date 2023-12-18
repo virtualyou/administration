@@ -81,33 +81,33 @@ function initial() {
         name: "Change Air Filters",
         type: "Maintenance",
         priority: "Normal",
-        due: "2023-11-21",
+        due: "12/01/2023",
         trigger: "",
-        completed: null,
+        completed: "12/15/2023",
         note: "",
-        userKey: 10
+        userKey: 1
     });
 
     Task.create({
         name: "Send Taxes",
         type: "Obligation",
         priority: "High",
-        due: "2023-11-21",
+        due: "12/01/2023",
         trigger: "Pending W-2",
-        completed: null,
+        completed: "12/15/2023",
         note: "",
-        userKey: 10
+        userKey: 1
     });
 
     Task.create({
         name: "Take Antibiotic",
         type: "Health",
         priority: "High",
-        due: null,
+        due: "12/01/2023",
         trigger: "",
-        completed: null,
+        completed: "12/15/2023",
         note: "",
-        userKey: 10
+        userKey: 1
     });
 }
 

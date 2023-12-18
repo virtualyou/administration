@@ -18,6 +18,8 @@
  * task.model.ts
  */
 
+import { DataTypes } from 'sequelize';
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const task = (sequelize: any, Sequelize: any) => {
     return sequelize.define("tasks", {
@@ -31,10 +33,10 @@ const task = (sequelize: any, Sequelize: any) => {
             type: Sequelize.STRING
         },
         due: {
-            type: Sequelize.STRING
+            type: DataTypes.DATE
         },
         completed: {
-            type: Sequelize.STRING
+            type: DataTypes.DATE
         },
         trigger: {
             type: Sequelize.STRING
