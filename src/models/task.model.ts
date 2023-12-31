@@ -33,10 +33,12 @@ const task = (sequelize: any, Sequelize: any) => {
             type: Sequelize.STRING
         },
         due: {
-            type: DataTypes.DATE
+            type: DataTypes.DATE,
+            allowNull: true
         },
         completed: {
-            type: DataTypes.DATE
+            type: DataTypes.DATE,
+            allowNull: true
         },
         trigger: {
             type: Sequelize.STRING

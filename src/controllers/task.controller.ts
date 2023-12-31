@@ -116,9 +116,9 @@ const createTaskForOwner = (req: Request, res: Response) => {
         name: req.body.name || "",
         type: req.body.type || "",
         priority: req.body.priority || "",
-        due: req.body.due || "",
+        due: req.body.due, // || "",
         trigger: req.body.trigger || "",
-        completed: req.body.completed || "",
+        completed: req.body.completed, // || "",
         note: req.body.note || "",
         userKey: getWhereKey(req)
     };
