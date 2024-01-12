@@ -23,6 +23,7 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import db from "./models/index";
 import taskRouter from "./routes/task.routes";
+import needRouter from "./routes/need.routes";
 import cookieSession from "cookie-session";
 import * as process from "process";
 
@@ -42,7 +43,7 @@ app.use(
     cookieSession({
         name: "virtualyou-session",
         keys: ["COOKIE_SECRET"],
-        domain: '.virtualyou.info',
+        //domain: '.virtualyou.info',
         httpOnly: true,
         sameSite: 'strict'
     })
@@ -62,6 +63,7 @@ app.get("/", (_req, res) => {
 
 // database
 const Task = db.task;
+const Need = db.need;
 
 if (init) {
     db.sequelize.sync({force: true}).then(() => {
@@ -74,9 +76,37 @@ if (init) {
 
 // routes
 app.use(taskRouter);
+app.use(needRouter);
 
 // create reference role objects
 function initial() {
+    Need.create({
+        name: "Glucerna",
+        quantity: 1,
+        unit: "Case",
+        urgency: "High",
+        note: "Running low",
+        userKey: 1
+    });
+
+    Need.create({
+        name: "Equate Options Pads",
+        quantity: 1,
+        unit: "Value Pack",
+        urgency: "Low",
+        note: "51 count?",
+        userKey: 1
+    });
+
+    Need.create({
+        name: "Bottled Water",
+        quantity: 1,
+        unit: "Case",
+        urgency: "Low",
+        note: "Aquafina if possible",
+        userKey: 1
+    });
+
     Task.create({
         name: "Change Air Filters",
         type: "Maintenance",

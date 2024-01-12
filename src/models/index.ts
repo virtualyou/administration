@@ -21,6 +21,7 @@
 import config from "../config/config";
 import { Sequelize } from "sequelize-typescript";
 import Task from "./task.model";
+import Need from "./need.model";
 
 const sequelize = new Sequelize(
     config.database.db,
@@ -46,5 +47,7 @@ db["sequelize"] = sequelize;
 db["Sequelize"] = Sequelize;
 
 db.task = Task(sequelize, Sequelize);
+db.need = Need(sequelize, Sequelize);
+
 
 export default db;
