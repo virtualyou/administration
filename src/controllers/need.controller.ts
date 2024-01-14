@@ -114,11 +114,9 @@ const createNeedForOwner = (req: Request, res: Response) => {
     // Create new Need object
     const need = {
         name: req.body.name || "",
-        type: req.body.type || "",
-        priority: req.body.priority || "",
-        due: req.body.due, // || "",
-        trigger: req.body.trigger || "",
-        completed: req.body.completed, // || "",
+        quantity: parseInt(req.body.quantity || "0"),
+        unit: req.body.unit || "",
+        urgency: req.body.urgency || "",
         note: req.body.note || "",
         userKey: getWhereKey(req)
     };
